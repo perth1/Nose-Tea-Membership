@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSE TEA · Nose Tea Membership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ตัวเลขใช้ IBM Plex Sans Thai (ฟอนต์เดิม) — เฉพาะ digit 0-9 */
+@font-face{font-family:'PlexNum';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/ibmplexsansthai/v11/m8JPje1VVIzcq1HzJq2AEdo2Tj_qvLq8Dg.ttf) format('truetype');unicode-range:U+0030-0039}
+@font-face{font-family:'PlexNum';font-style:normal;font-weight:500;src:url(https://fonts.gstatic.com/s/ibmplexsansthai/v11/m8JMje1VVIzcq1HzJq2AEdo2Tj_qvLqE-vUFbQ.ttf) format('truetype');unicode-range:U+0030-0039}
+@font-face{font-family:'PlexNum';font-style:normal;font-weight:600;src:url(https://fonts.gstatic.com/s/ibmplexsansthai/v11/m8JMje1VVIzcq1HzJq2AEdo2Tj_qvLqE1vIFbQ.ttf) format('truetype');unicode-range:U+0030-0039}
+@font-face{font-family:'PlexNum';font-style:normal;font-weight:700;src:url(https://fonts.gstatic.com/s/ibmplexsansthai/v11/m8JMje1VVIzcq1HzJq2AEdo2Tj_qvLqEsvMFbQ.ttf) format('truetype');unicode-range:U+0030-0039}
+:root{
+  --cream:#F6F1E7;
+  --paper:#FFFDF8;
+  --card:#FFFFFF;
+  --green-950:#152B22;
+  --green-900:#1E3A2E;
+  --green-700:#2F5243;
+  --green-100:#E4EBE3;
+  --gold:#C6A15B;
+  --gold-deep:#A88439;
+  --gold-soft:#EFE2C4;
+  --ink:#26302A;
+  --muted:#8A9088;
+  --line:#ECE5D6;
+  --radius:22px;
+  --shadow:0 8px 24px rgba(30,58,46,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'PlexNum','Prompt',sans-serif;
+  background:#E9E4D8;
+  color:var(--ink);
+  display:flex;justify-content:center;align-items:flex-start;
+  min-height:100vh;padding:24px 0;
+}
+.serif{font-family:'Cormorant Garamond','Prompt',sans-serif}
+.ny{font-family:'New York',ui-serif,'Times New Roman',serif}
+
+/* ── Phone frame ── */
+.phone{
+  width:393px;max-width:100vw;height:830px;
+  background:var(--cream);
+  border-radius:44px;
+  box-shadow:0 30px 80px rgba(21,43,34,.35), 0 0 0 10px #10201A;
+  overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+}
+.statusbar{
+  height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;font-size:13px;font-weight:600;color:var(--green-900);
+}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:120px}
+.screen::-webkit-scrollbar{display:none}
+.page{display:none;animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Bottom nav (icons only) ── */
+.nav{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:22px;width:calc(100% - 48px);max-width:330px;
+  background:var(--green-900);
+  border-radius:999px;
+  display:flex;justify-content:space-around;align-items:center;
+  padding:10px 14px;
+  box-shadow:0 12px 30px rgba(21,43,34,.35);
+  border:1px solid rgba(198,161,91,.35);
+  z-index:50;
+}
+.nav button{
+  background:none;border:none;cursor:pointer;
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s ease;position:relative;
+}
+.nav button svg{width:24px;height:24px;stroke:#B9C6BD;fill:none;stroke-width:1.7;transition:all .25s}
+.nav button.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));box-shadow:0 4px 14px rgba(198,161,91,.5)}
+.nav button.on svg{stroke:#FFFDF8}
+.nav button.on::after{content:'';position:absolute;bottom:6px;width:4px;height:4px;border-radius:50%;background:#FFFDF8}
+
+/* ── Shared ── */
+.wrap{padding:8px 22px 0}
+.h-eyebrow{font-size:11px;letter-spacing:.22em;color:var(--gold-deep);font-weight:600;text-transform:uppercase}
+.h-title{font-size:30px;font-weight:700;color:var(--green-900);line-height:1.15}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line)}
+.section-label{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 12px}
+.section-label b{font-size:16px;color:var(--green-900)}
+.section-label span{font-size:12px;color:var(--gold-deep);font-weight:500;cursor:pointer}
+
+/* cup graphic */
+.cup{position:relative;border-radius:10px 10px 14px 14px;overflow:hidden;flex:none;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55), 0 3px 8px rgba(30,58,46,.14)}
+.cup::before{content:'';position:absolute;top:0;left:0;right:0;height:32%;background:linear-gradient(180deg,#FFF6E0,#F7E7BF);opacity:.95}
+.cup::after{content:'';position:absolute;top:-4px;left:46%;width:8%;height:46%;background:rgba(255,255,255,.7);border-radius:4px}
+/* photo thumbnails */
+.pic{object-fit:cover;object-position:center 22%;flex:none;background:#F4F0E6;display:block}
+
+/* ══ HOME ══ */
+.member-card{
+  margin-top:16px;border-radius:26px;padding:22px 22px 18px;color:var(--cream);
+  background:
+    radial-gradient(120% 160% at 90% -20%,rgba(198,161,91,.45),transparent 55%),
+    radial-gradient(80% 120% at -10% 110%,rgba(198,161,91,.25),transparent 60%),
+    linear-gradient(140deg,var(--green-900),var(--green-950));
+  box-shadow:0 18px 36px rgba(21,43,34,.35);
+  border:1px solid rgba(198,161,91,.4);
+  position:relative;overflow:hidden;
+}
+.member-card .row1{display:flex;justify-content:space-between;align-items:flex-start}
+.brand-mark{font-size:20px;font-weight:700;letter-spacing:.06em;color:#F3E7CB}
+.brand-mark small{display:block;font-size:9.5px;letter-spacing:.34em;color:var(--gold);font-weight:600;margin-top:2px}
+.tier{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--green-950);background:linear-gradient(135deg,#EBD9A9,var(--gold));padding:6px 14px;border-radius:999px}
+.points{margin-top:26px;display:flex;align-items:flex-end;gap:8px}
+.points .num{font-size:44px;line-height:.9;font-weight:600;color:#F6EDD8;font-family:'New York',ui-serif,'Times New Roman',serif}
+.points .unit{font-size:13px;color:#BFCDC2;padding-bottom:5px}
+.member-card .row3{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid rgba(246,241,231,.15);font-size:12px;color:#A9B8AC}
+.member-card .row3 b{color:#EFE2C4;font-weight:600}
+.leaf{position:absolute;right:-30px;bottom:-42px;width:150px;height:150px;opacity:.14}
+
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.quick .q{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:13px 4px 11px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 3px 10px rgba(30,58,46,.05)}
+.quick .q:active{transform:scale(.94)}
+.quick .q .ic{width:38px;height:38px;margin:0 auto 7px;border-radius:12px;background:var(--green-100);display:flex;align-items:center;justify-content:center}
+.quick .q:nth-child(2) .ic{background:var(--gold-soft)}
+.quick .q:nth-child(3) .ic{background:#F3E4E0}
+.quick .q:nth-child(4) .ic{background:#E7E9F2}
+.quick .q .ic svg{width:19px;height:19px;stroke:var(--green-700);stroke-width:1.8;fill:none}
+.quick .q span{font-size:11px;font-weight:500;color:var(--ink)}
+
+.promo{margin-top:20px;border-radius:var(--radius);overflow:hidden;position:relative;background:linear-gradient(120deg,var(--gold-soft),#F9F3E3);border:1px solid #E8D9B4;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.promo b{font-size:15px;color:var(--green-900);display:block}
+.promo p{font-size:12px;color:#7A6E52;margin-top:3px;line-height:1.5}
+.promo .tag{font-size:10px;letter-spacing:.18em;color:var(--gold-deep);font-weight:700}
+.promo .cupbig{width:52px;height:66px;background:linear-gradient(180deg,#D9A85E 32%,#8C5B2B)}
+
+.menu-scroll{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 14px;scrollbar-width:none;margin:0 -22px;padding-left:22px;padding-right:22px}
+.menu-scroll::-webkit-scrollbar{display:none}
+.m-item{flex:none;width:138px;background:linear-gradient(180deg,#FFFFFF,#FDFAF2);border:1px solid #E3CFA0;border-radius:20px;padding:14px 13px 13px;box-shadow:0 10px 24px rgba(168,132,57,.14), 0 2px 6px rgba(30,58,46,.06);cursor:pointer;transition:.2s}
+.m-item:active{transform:scale(.96)}
+.m-item .cup{width:56px;height:74px;margin:0 auto 10px}
+.m-item b{font-size:13px;color:var(--green-900);display:block;line-height:1.35}
+.m-item .nutri{display:flex;flex-direction:column;gap:3px;margin-top:8px;padding-top:8px;border-top:1px solid #F0E6CC}
+.m-item .nutri span{font-size:10px;color:#847960;font-weight:500;display:flex;align-items:center;gap:6px}
+.m-item .nutri span::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);flex:none}
+.m-item .price-row{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.m-item .price-row b{font-size:14px}
+.m-item .add{width:24px;height:24px;border-radius:8px;background:var(--green-900);color:#fff;border:none;font-size:15px;cursor:pointer;line-height:1}
+
+/* calorie calculator */
+.calc{margin-top:2px;padding:18px 18px 20px}
+.calc-menus{display:flex;gap:9px;justify-content:space-between}
+.calc-menus img{width:54px;height:68px;border-radius:12px;cursor:pointer;border:2px solid transparent;opacity:.5;transition:.2s;filter:saturate(.7)}
+.calc-menus img.sel{border-color:var(--gold);opacity:1;filter:none;box-shadow:0 5px 14px rgba(198,161,91,.35)}
+.calc-name{margin-top:12px;font-size:13.5px;font-weight:500;color:var(--green-900);text-align:center}
+.sweet-row{margin-top:12px}
+.sweet-row .lbl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:6px}
+.sweet-row .lbl b{color:var(--gold-deep)}
+.sweet-row input[type=range]{width:100%;accent-color:var(--gold-deep);cursor:pointer}
+.sweet-row .ticks{display:flex;justify-content:space-between;font-size:9.5px;color:#C0BBA9;margin-top:2px}
+.calc-result{display:flex;gap:8px;margin-top:15px}
+.calc-result .r{flex:1;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:11px 4px;text-align:center}
+.calc-result .r b{font-size:19px;color:var(--green-900);display:block;line-height:1.2;font-family:'New York',ui-serif,'Times New Roman',serif}
+.calc-result .r span{font-size:9.5px;color:var(--muted)}
+
+/* ══ ORDER ══ */
+.searchbar{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--muted);font-size:13px}
+.searchbar svg{width:16px;height:16px;stroke:var(--muted);stroke-width:2;fill:none}
+.cats{display:flex;gap:8px;overflow-x:auto;margin:16px -22px 4px;padding:2px 22px 6px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;font-size:12.5px;font-weight:500;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;transition:.2s}
+.cat.on{background:var(--green-900);color:#F3E7CB;border-color:var(--green-900)}
+.o-item{display:flex;gap:14px;padding:14px;margin-bottom:12px;cursor:pointer;transition:.15s;background:linear-gradient(180deg,#FFFFFF,#FDFAF2);border-color:#E3CFA0;box-shadow:0 10px 24px rgba(168,132,57,.13), 0 2px 6px rgba(30,58,46,.05)}
+.o-item:active{transform:scale(.985)}
+.o-item .cup{width:52px;height:68px}
+.o-item .info{flex:1;min-width:0}
+.o-item .info b{font-size:14px;color:var(--green-900);font-weight:500}
+.o-item .info .desc{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.o-item .nutri{display:flex;flex-direction:column;align-items:flex-start;gap:3px;margin-top:7px}
+.o-item .nutri span{font-size:10px;color:#847960;font-weight:500;display:flex;align-items:center;gap:6px}
+.o-item .nutri span::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);flex:none}
+.o-item .nutri span.gold{font-size:9.5px;background:var(--gold-soft);color:var(--gold-deep);border-radius:6px;padding:2.5px 8px;margin-top:2px;font-weight:600;letter-spacing:.02em}
+.o-item .nutri span.gold::before{display:none}
+.o-item .right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}
+.o-item .right b{font-size:14.5px;color:var(--green-900)}
+.o-item .add{width:28px;height:28px;border-radius:10px;background:var(--green-900);color:#fff;border:none;font-size:17px;cursor:pointer;line-height:1;transition:.2s}
+.o-item .add:active{background:var(--gold-deep)}
+.honest-note{display:flex;gap:10px;align-items:center;background:var(--gold-soft);border:1px solid #E8D9B4;border-radius:16px;padding:12px 16px;margin:14px 0 16px;font-size:11.5px;color:#6E5E3B;line-height:1.55}
+.honest-note svg{width:26px;height:26px;flex:none;stroke:var(--gold-deep);stroke-width:1.6;fill:none}
+.cart-fab{
+  position:absolute;right:22px;bottom:98px;z-index:40;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#FFFDF8;border:none;border-radius:999px;padding:13px 20px;
+  font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
+  display:none;align-items:center;gap:9px;
+  box-shadow:0 10px 26px rgba(168,132,57,.45);
+  animation:pop .3s ease;
+}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.cart-fab .badge{background:#FFFDF8;color:var(--gold-deep);border-radius:50%;width:21px;height:21px;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* ══ TRACK ══ */
+.track-head{text-align:center;margin-top:10px}
+.track-head .today{font-size:36px;font-weight:700;color:var(--green-900)}
+.track-head .date{font-size:12.5px;color:var(--muted);letter-spacing:.08em;margin-top:2px}
+.cal{margin-top:16px;padding:18px 14px 16px}
+.cal .dows{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:10.5px;letter-spacing:.05em;color:var(--muted);font-weight:600;margin-bottom:10px}
+.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.day{aspect-ratio:1/1.28;border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;font-size:11px;color:#C9C4B6;background:var(--cream)}
+.day.blank{background:transparent}
+.day .cup{width:66%;height:82%}
+.day.filled{background:transparent;border:none;cursor:pointer;transition:.15s}
+.day.filled .pic{width:100%;height:100%;object-fit:cover;border-radius:10px;background:transparent;mix-blend-mode:multiply}
+.day.filled:active{transform:scale(.9)}
+.day.today-ring{outline:2px solid var(--gold);outline-offset:2px}
+.day .cnt{position:absolute;top:-5px;right:-5px;background:var(--gold);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(168,132,57,.4)}
+/* statistics */
+.stats-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}
+.stats-head b{font-size:16px;color:var(--green-900)}
+.seg{display:flex;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 15px;font-family:inherit;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+.seg button.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#FFFDF8;border-color:transparent;box-shadow:0 4px 10px rgba(168,132,57,.3)}
+.collage{height:148px;position:relative;overflow:hidden;padding:0}
+.collage img{position:absolute;height:auto;filter:drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(0 5px 7px rgba(30,58,46,.18))}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sg{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 18px;box-shadow:var(--shadow)}
+.sg span{font-size:11.5px;color:var(--muted)}
+.sg b{display:block;font-size:30px;color:var(--gold-deep);margin-top:3px;font-weight:700;line-height:1.1}
+.sg b small{font-size:12px;color:var(--muted);font-weight:500}
+
+.stat-card{margin-top:16px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stat-card .lbl{font-size:11px;letter-spacing:.16em;color:var(--gold-deep);font-weight:700;text-transform:uppercase}
+.stat-card .big{font-size:34px;font-weight:700;color:var(--green-900);line-height:1.1}
+.stat-card .big small{font-size:13px;font-weight:500;color:var(--muted);margin-left:5px}
+.stat-card .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.mini-cups{display:flex}
+.mini-cups .cup{width:34px;height:46px;margin-left:-9px;border:2px solid var(--paper)}
+.journal-card{margin-top:16px;padding:18px 20px;background:linear-gradient(150deg,var(--green-900),var(--green-950));border:1px solid rgba(198,161,91,.4);color:var(--cream)}
+.journal-card .top{display:flex;justify-content:space-between;align-items:center}
+.journal-card .top b{font-size:14.5px;color:#F3E7CB}
+.journal-card .top span{font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700}
+.journal-card .body{display:flex;gap:14px;margin-top:14px;align-items:center}
+.journal-card .cup{width:46px;height:62px}
+.journal-card .note{font-size:12px;line-height:1.65;color:#C7D3C9;font-style:italic}
+.journal-card .meta{display:flex;gap:14px;margin-top:12px;font-size:10.5px;color:#93A697}
+.share-btn{margin-top:15px;width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));border:none;border-radius:14px;padding:12px;color:#FFFDF8;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.share-btn:active{transform:scale(.97)}
+.share-btn svg{width:15px;height:15px;stroke:#fff;stroke-width:2;fill:none}
+
+/* ══ ME ══ */
+.me-head{display:flex;align-items:center;gap:16px;margin-top:16px}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--green-700),var(--green-950));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#F3E7CB;border:2.5px solid var(--gold);flex:none}
+.me-head b{font-size:18px;color:var(--green-900)}
+.me-head .since{font-size:11.5px;color:var(--muted);margin-top:2px}
+.me-head .tierchip{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--gold-deep);background:var(--gold-soft);padding:4px 11px;border-radius:999px}
+.progress-card{margin-top:18px;padding:18px 20px}
+.progress-card .row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:9px}
+.progress-card .row b{color:var(--green-900)}
+.bar{height:9px;border-radius:99px;background:var(--cream);overflow:hidden}
+.bar i{display:block;height:100%;width:68%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-deep))}
+.progress-card .hint{font-size:11px;color:var(--muted);margin-top:9px}
+.me-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.me-stats .s{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--shadow)}
+.me-stats .s b{font-size:20px;color:var(--green-900);display:block}
+.me-stats .s span{font-size:10.5px;color:var(--muted)}
+.coupon{display:flex;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.15s}
+.coupon:active{transform:scale(.98)}
+.coupon .left{width:78px;flex:none;background:linear-gradient(150deg,var(--green-900),var(--green-950));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#F3E7CB;border-right:2px dashed var(--gold-soft)}
+.coupon .left b{font-size:19px}
+.coupon .left span{font-size:9px;letter-spacing:.14em;color:var(--gold)}
+.coupon .right{padding:13px 16px;flex:1}
+.coupon .right b{font-size:13px;color:var(--green-900)}
+.coupon .right p{font-size:11px;color:var(--muted);margin-top:3px}
+.settings{margin:16px 0 8px}
+.set-row{display:flex;align-items:center;gap:14px;padding:15px 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:9px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--ink);box-shadow:0 2px 8px rgba(30,58,46,.04)}
+.set-row svg{width:19px;height:19px;stroke:var(--green-700);stroke-width:1.7;fill:none;flex:none}
+.set-row .chev{margin-left:auto;stroke:var(--muted)}
+
+/* ══ LUCKY DRAW ══ */
+.lucky-head{display:flex;align-items:center;gap:12px;margin-top:6px}
+.back-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;transition:.2s}
+.back-btn:active{transform:scale(.92)}
+.back-btn svg{width:18px;height:18px;stroke:var(--green-900);stroke-width:2;fill:none}
+.hero{
+  margin-top:16px;border-radius:26px;padding:24px 22px;color:var(--cream);text-align:center;
+  background:
+    radial-gradient(120% 160% at 90% -20%,rgba(198,161,91,.45),transparent 55%),
+    radial-gradient(80% 120% at -10% 110%,rgba(198,161,91,.25),transparent 60%),
+    linear-gradient(140deg,var(--green-900),var(--green-950));
+  border:1px solid rgba(198,161,91,.4);
+  box-shadow:0 18px 36px rgba(21,43,34,.35);
+}
+.hero .tag{font-size:10px;letter-spacing:.26em;color:var(--gold);font-weight:700}
+.hero h1{font-size:32px;margin-top:8px;color:#F3E7CB;font-weight:700}
+.hero-campaign{
+  font-size:46px !important;line-height:1.04;letter-spacing:.01em;
+  background:linear-gradient(120deg,#F3E7CB 5%,var(--gold) 40%,#F9EFD6 65%,var(--gold) 95%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 4px 12px rgba(198,161,91,.4));
+}
+.hero p{font-size:12.5px;color:#B8C6BB;margin-top:10px;line-height:1.7}
+.hero p b{color:#EFE2C4}
+.ticket-bar{margin-top:16px;background:var(--card);border:1px solid #E3CFA0;border-radius:20px;box-shadow:0 10px 24px rgba(168,132,57,.14);padding:15px 20px;display:flex;align-items:center;justify-content:space-between}
+.ticket-bar .lbl{font-size:12px;color:var(--muted)}
+.ticket-bar .val{font-size:24px;font-weight:700;color:var(--gold-deep)}
+.ticket-bar .val small{font-size:12px;color:var(--muted);font-weight:500;margin-left:4px}
+.ticket-ic{width:42px;height:42px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
+.ticket-ic svg{width:21px;height:21px;stroke:var(--gold-deep);stroke-width:1.7;fill:none}
+.draw-btn{margin-top:16px;width:100%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#FFFDF8;font-family:inherit;font-size:15px;font-weight:600;padding:16px;border-radius:18px;box-shadow:0 12px 28px rgba(168,132,57,.45);transition:.2s}
+.draw-btn:active{transform:scale(.97)}
+.draw-btn:disabled{background:#CFC9B8;box-shadow:none;cursor:not-allowed}
+.pz-card{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid #E3CFA0;border-radius:18px;padding:11px 15px;margin-bottom:10px;box-shadow:0 8px 20px rgba(168,132,57,.12)}
+.pz-card .idx{width:24px;height:24px;flex:none;border-radius:50%;background:var(--gold-soft);color:var(--gold-deep);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.pz-card .thumb{width:52px;height:62px;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden}
+.pz-card .thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.pz-card b{font-size:13.5px;color:var(--green-900);font-weight:600;display:block}
+.pz-card p{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.lucky-step{display:flex;gap:13px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;margin-bottom:9px}
+.lucky-step .no{width:26px;height:26px;flex:none;border-radius:50%;background:var(--green-900);color:#F3E7CB;font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.lucky-step p{font-size:12.5px;line-height:1.6;color:var(--ink)}
+.lucky-step p small{color:var(--muted)}
+/* overlay */
+.overlay{position:absolute;inset:0;z-index:100;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(16,32,26,.82);backdrop-filter:blur(6px)}
+.overlay.show{display:flex;animation:ovin .3s ease}
+@keyframes ovin{from{opacity:0}to{opacity:1}}
+.rays{position:absolute;width:460px;height:460px;opacity:0;transition:opacity .4s;pointer-events:none}
+.rays.on{opacity:.55;animation:spinray 14s linear infinite}
+@keyframes spinray{to{transform:rotate(360deg)}}
+.gift-zone{position:relative;width:260px;height:280px;display:flex;align-items:flex-end;justify-content:center}
+.gift{position:relative;width:170px;height:150px;cursor:pointer;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.gift.opened{animation:none;cursor:default}
+.box-body{position:absolute;bottom:0;left:10px;right:10px;height:105px;border-radius:12px;background:linear-gradient(160deg,#5B8A6E,#2F5A44);box-shadow:inset 0 0 0 1.5px rgba(198,161,91,.45), 0 16px 30px rgba(0,0,0,.4)}
+.box-body::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:26px;transform:translateX(-50%);background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-deep))}
+.box-lid{position:absolute;top:12px;left:0;right:0;height:42px;border-radius:10px;background:linear-gradient(160deg,#6B9A7E,#3A6B52);box-shadow:inset 0 0 0 1.5px rgba(198,161,91,.5), 0 8px 16px rgba(0,0,0,.35);transition:transform .75s cubic-bezier(.34,1.3,.5,1), opacity .75s;z-index:3}
+.box-lid::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:26px;transform:translateX(-50%);background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-deep))}
+.box-lid::after{content:'';position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:52px;height:24px;background:radial-gradient(circle at 25% 50%, var(--gold) 0 38%, transparent 40%),radial-gradient(circle at 75% 50%, var(--gold) 0 38%, transparent 40%),radial-gradient(circle at 50% 50%, var(--gold-deep) 0 22%, transparent 24%)}
+.gift.opened .box-lid{transform:translateY(-130px) rotate(-24deg);opacity:0}
+.gift .glow{position:absolute;left:50%;bottom:70px;transform:translateX(-50%);width:120px;height:120px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(239,226,196,.95),rgba(198,161,91,.35) 55%,transparent 70%);opacity:0;transition:opacity .5s;z-index:2}
+.gift.opened .glow{opacity:1;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.15)}}
+.tap-hint{margin-top:22px;font-size:13px;color:#D9E2D8;letter-spacing:.04em;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+.prize-card{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) scale(0);width:280px;background:linear-gradient(180deg,#FFFFFF,#FDF8EC);border:1.5px solid var(--gold);border-radius:24px;padding:26px 22px 22px;text-align:center;z-index:5;box-shadow:0 24px 60px rgba(0,0,0,.45), 0 0 0 6px rgba(198,161,91,.18);pointer-events:none}
+.prize-card.pop{animation:prizepop .8s cubic-bezier(.34,1.45,.45,1) forwards, floaty 2.6s ease-in-out 1s infinite}
+@keyframes prizepop{0%{transform:translate(-50%,-38%) scale(0);opacity:0}60%{transform:translate(-50%,-52%) scale(1.06);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes floaty{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-53%) scale(1)}}
+.prize-card .congrats{font-size:10.5px;letter-spacing:.3em;color:var(--gold-deep);font-weight:700}
+.prize-card h2{font-size:23px;color:var(--green-900);margin-top:8px;font-weight:700;line-height:1.3}
+.prize-card img{width:110px;height:auto;margin:10px auto 2px;filter:drop-shadow(0 8px 12px rgba(30,58,46,.25))}
+.prize-card .emoji{font-size:62px;line-height:1.3;margin:10px 0 2px;display:block}
+.prize-card p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+.prize-card .code{margin-top:12px;background:var(--green-900);color:#F3E7CB;border-radius:12px;padding:9px;font-size:13px;letter-spacing:.18em;font-weight:600}
+.close-hint{position:absolute;bottom:56px;left:0;right:0;text-align:center;font-size:12.5px;color:#D9E2D8;letter-spacing:.05em;z-index:6;opacity:0;transition:opacity .4s;pointer-events:none}
+.close-hint.show{opacity:1;animation:blink 1.8s ease-in-out .8s infinite}
+.confetti{position:absolute;top:-14px;border-radius:2px;pointer-events:none;z-index:4;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg)}100%{transform:translateY(860px) rotate(720deg)}}
+
+/* toast */
+.toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:var(--green-950);color:#F3E7CB;font-size:12.5px;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.3s;z-index:60;white-space:nowrap;border:1px solid rgba(198,161,91,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span>NOSE&nbsp;TEA</span><span>●●●</span></div>
+
+  <div class="screen" id="screen">
+
+    <!-- ══════════ HOME ══════════ -->
+    <section class="page active" id="page-home">
+      <div class="wrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px">
+          <div class="h-title serif">Good afternoon,<br><span style="font-weight:500;font-size:26px">คุณไผ่</span></div>
+          <img src="assets/logo-nosetea.png" alt="Nose Tea" style="width:74px;height:auto;flex:none;margin-right:-6px">
+        </div>
+
+        <div class="member-card">
+          <div class="row1">
+            <div class="brand-mark serif">NOSE TEA<small>NOSE TEA MEMBER</small></div>
+            <div class="tier">GOLD BLEND</div>
+          </div>
+          <div class="points">
+            <span class="num">1270</span><span class="unit">point</span>
+          </div>
+          <div class="row3">
+            <span>อีก <b>230 แต้ม</b> ถึงระดับถัดไป</span>
+          </div>
+          <svg class="leaf" viewBox="0 0 24 24" fill="#C6A15B"><path d="M12 2C7 7 4 12 4 16a8 8 0 0016 0c0-4-3-9-8-14z"/></svg>
+        </div>
+
+        <div class="quick">
+          <div class="q" onclick="go('order')"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12l-1.5 18h-9L6 3z"/><path d="M5 8h14"/></svg></div><span>สั่งล่วงหน้า</span></div>
+          <div class="q" onclick="toast('สแกนรับแต้มที่หน้าร้าน')"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg></div><span>สแกนแต้ม</span></div>
+          <div class="q" onclick="go('track')"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v16H4z"/><path d="M4 9h16M8 3v4M16 3v4"/></svg></div><span>สมุดบันทึกชา</span></div>
+          <div class="q" onclick="go('me')"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 6a1 1 0 011-1h16a1 1 0 011 1v3.5a2.5 2.5 0 000 5V18a1 1 0 01-1 1H4a1 1 0 01-1-1v-3.5a2.5 2.5 0 000-5V6z"/><path d="M14 5v2.5M14 10.5v3M14 16.5V19"/></svg></div><span>สิทธิพิเศษ</span></div>
+        </div>
+
+        <div class="promo" onclick="go('lucky')">
+          <div>
+            <span class="tag">CAMPAIGN · LUCKY DRAW</span>
+            <b style="font-size:20px;background:linear-gradient(120deg,#7A6428,var(--gold-deep),#7A6428);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.02em">Unlock Every SIP</b>
+            <p>สั่งผ่านแอป ลุ้นรางวัลทุกแก้ว · 1 แก้ว = 1 สิทธิ์</p>
+          </div>
+          <span style="font-size:42px;flex:none;filter:drop-shadow(0 4px 8px rgba(168,132,57,.35))">🎁</span>
+        </div>
+
+        <div class="section-label"><b>คำนวณแคลอรี</b></div>
+        <div class="card calc">
+          <div class="calc-menus">
+            <img class="pic sel" src="assets/menu-nosetea-signature.jpg" alt="" onclick="pickDrink(0,this)">
+            <img class="pic" src="assets/menu-thaitea-signature.jpg" alt="" onclick="pickDrink(1,this)">
+            <img class="pic" src="assets/menu-grape-snow.jpg" alt="" onclick="pickDrink(2,this)">
+            <img class="pic" src="assets/menu-jasmine-green.jpg" alt="" onclick="pickDrink(3,this)">
+            <img class="pic" src="assets/menu-bonana-choco.jpg" alt="" onclick="pickDrink(4,this)">
+          </div>
+          <div class="calc-name" id="calcName">โนสที ซิกเนเจอร์</div>
+          <div class="sweet-row">
+            <div class="lbl"><span>ระดับความหวาน</span><b id="sweetVal">50%</b></div>
+            <input type="range" id="sweetRange" min="0" max="100" step="25" value="50" oninput="calcUpd()">
+            <div class="ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          </div>
+          <div class="calc-result">
+            <div class="r"><b id="rKcal">208</b><span>kcal</span></div>
+            <div class="r"><b id="rSugar">12</b><span>sugar (g)</span></div>
+            <div class="r"><b id="rFat">7</b><span>fat (g)</span></div>
+            <div class="r"><b id="rCaf">60</b><span>caffeine (mg)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ ORDER ══════════ -->
+    <section class="page" id="page-order">
+      <div class="wrap">
+        <div class="h-eyebrow">Pickup</div>
+        <div class="h-title serif">Order</div>
+
+        <div class="cats">
+          <button class="cat on" onclick="cat(this)">ทั้งหมด</button>
+          <button class="cat" onclick="cat(this)">Signature Cheese</button>
+          <button class="cat" onclick="cat(this)">Premium Tea</button>
+          <button class="cat" onclick="cat(this)">Fruit Tea</button>
+          <button class="cat" onclick="cat(this)">Low Sugar</button>
+        </div>
+
+        <div class="card o-item">
+          <img class="pic" src="assets/menu-nosetea-signature.jpg" alt="" style="width:58px;height:72px;border-radius:14px">
+          <div class="info">
+            <b>โนสที ซิกเนเจอร์</b>
+            <div class="desc">ชานมซิกเนเจอร์ ครีมชีสนิวซีแลนด์ + ไข่มุก</div>
+            <div class="nutri"><span class="gold">Best Seller</span></div>
+          </div>
+          <div class="right"><b>฿95</b><button class="add" onclick="addCart(event,'โนสที ซิกเนเจอร์')">+</button></div>
+        </div>
+
+        <div class="card o-item">
+          <img class="pic" src="assets/menu-thaitea-signature.jpg" alt="" style="width:58px;height:72px;border-radius:14px">
+          <div class="info">
+            <b>ไทยที ซิกเนเจอร์</b>
+            <div class="desc">ชาไทยคั่วเข้ม ครีมชีส + ไข่มุกบราวน์ชูการ์</div>
+          </div>
+          <div class="right"><b>฿105</b><button class="add" onclick="addCart(event,'ไทยที ซิกเนเจอร์')">+</button></div>
+        </div>
+
+        <div class="card o-item">
+          <img class="pic" src="assets/menu-grape-snow.jpg" alt="" style="width:58px;height:72px;border-radius:14px">
+          <div class="info">
+            <b>ชาองุ่นเกล็ดหิมะ</b>
+            <div class="desc">องุ่นเคียวโฮ เกล็ดหิมะเย็นฉ่ำ + ครีมชีส</div>
+            <div class="nutri"><span class="gold">New</span></div>
+          </div>
+          <div class="right"><b>฿115</b><button class="add" onclick="addCart(event,'ชาองุ่นเกล็ดหิมะ')">+</button></div>
+        </div>
+
+        <div class="card o-item">
+          <img class="pic" src="assets/menu-jasmine-green.jpg" alt="" style="width:58px;height:72px;border-radius:14px">
+          <div class="info">
+            <b>ชาเขียวมะลิครีมชีส</b>
+            <div class="desc">ชาเขียวมะลิหอมละมุน + ครีมชีส</div>
+            <div class="nutri"><span class="gold">Low Sugar</span></div>
+          </div>
+          <div class="right"><b>฿100</b><button class="add" onclick="addCart(event,'ชาเขียวมะลิครีมชีส')">+</button></div>
+        </div>
+
+        <div class="card o-item">
+          <img class="pic" src="assets/menu-bonana-choco.jpg" alt="" style="width:58px;height:72px;border-radius:14px">
+          <div class="info">
+            <b>บอนนาน่า ช็อกโก</b>
+            <div class="desc">กล้วยหอมปั่น ช็อกโกแลตเข้มข้น + คุกกี้ครัมเบิล</div>
+          </div>
+          <div class="right"><b>฿110</b><button class="add" onclick="addCart(event,'บอนนาน่า ช็อกโก')">+</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ TRACK DRINK ══════════ -->
+    <section class="page" id="page-track">
+      <div class="wrap">
+        <div class="track-head">
+          <div class="h-eyebrow">Tea Journal</div>
+          <div class="today serif">Today</div>
+          <div class="date">Sun, Jul 12, 2026</div>
+        </div>
+
+        <div class="card cal">
+          <div class="dows"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div class="grid" id="calGrid"></div>
+        </div>
+
+        <div class="stats-head">
+          <b>Statistics</b>
+          <div class="seg">
+            <button class="on" onclick="setPeriod('w',this)">W</button>
+            <button onclick="setPeriod('m',this)">M</button>
+            <button onclick="setPeriod('y',this)">Year</button>
+          </div>
+        </div>
+
+        <div class="card collage">
+          <img src="assets/sticker-nosetea.png" alt="" style="left:-6%;bottom:-16%;width:128px;transform:rotate(-6deg)">
+          <img src="assets/sticker-thaitea.png" alt="" style="left:18%;top:-8%;width:114px;transform:rotate(5deg)">
+          <img src="assets/sticker-grape.png" alt="" style="left:38%;bottom:-14%;width:130px;transform:rotate(-3deg)">
+          <img src="assets/sticker-jasmine.png" alt="" style="right:14%;top:-9%;width:112px;transform:rotate(7deg)">
+          <img src="assets/sticker-bonana.png" alt="" style="right:-7%;bottom:-15%;width:134px;transform:rotate(-5deg)">
+        </div>
+
+        <div class="stats-grid">
+          <div class="sg"><span>Total Cups</span><b class="ny" id="stCups">6</b></div>
+          <div class="sg"><span>Total Spend</span><b class="ny" id="stSpend">฿630</b></div>
+          <div class="sg"><span>Total Caffeine</span><b class="ny" id="stCaf">320 <small>mg</small></b></div>
+          <div class="sg"><span>Daily Avg</span><b class="ny" id="stAvg">46 <small>mg</small></b></div>
+        </div>
+
+        <div class="journal-card">
+          <div class="top"><b>การ์ดบันทึกล่าสุด</b><span>TEA JOURNAL CARD</span></div>
+          <div class="body">
+            <img class="pic" src="assets/menu-grape-snow.jpg" alt="" style="width:50px;height:64px;border-radius:12px;border:1.5px solid rgba(198,161,91,.5)">
+            <div>
+              <div class="note serif">“ชาองุ่นเกล็ดหิมะแก้วแรกของเดือน เย็นฉ่ำ หวานอมเปรี้ยวกำลังดี”</div>
+              <div class="meta"><span>☁︎ หวาน 25%</span><span>♨ เย็น</span><span>✦ สาขาสยาม</span></div>
+            </div>
+          </div>
+          <button class="share-btn" onclick="toast('แชร์การ์ดแล้ว +20 แต้ม ✨')">
+            <svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+            แชร์การ์ดบันทึก · รับ +20 แต้ม
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ ME ══════════ -->
+    <section class="page" id="page-me">
+      <div class="wrap">
+        <div class="h-eyebrow">My Profile</div>
+
+        <div class="me-head">
+          <div class="avatar serif">P</div>
+          <div>
+            <b>คุณไผ่ กชณิชา</b>
+            <div class="since">สมาชิกตั้งแต่ พ.ค. 2026</div>
+            <div class="tierchip">✦ GOLD BLEND</div>
+          </div>
+        </div>
+
+        <div class="card progress-card">
+          <div class="row"><span>เส้นทางสู่ <b>ROYAL RESERVE</b></span><b>1270 / 1500</b></div>
+          <div class="bar"><i style="width:85%"></i></div>
+          <div class="hint">อีก 230 แต้ม — รับสิทธิ์ชิมเมนูใหม่ก่อนใคร + ของขวัญวันเกิด</div>
+        </div>
+
+        <div class="me-stats">
+          <div class="s"><b class="ny">31</b><span>แก้วทั้งหมด</span></div>
+          <div class="s"><b class="ny">9</b><span>เมนูที่เคยลอง</span></div>
+          <div class="s"><b class="ny">12</b><span>การ์ดที่แชร์</span></div>
+        </div>
+
+        <div class="section-label"><b>คูปองของฉัน</b><span>3 ใบ</span></div>
+
+        <div class="card coupon" onclick="toast('ใช้คูปองที่หน้าร้านได้เลย')">
+          <div class="left"><b class="serif">FREE</b><span>REWARD</span></div>
+          <div class="right"><b>ฟรี! ชาเขียวชีส 1 แก้ว</b><p>รางวัลจดครบ 5 แก้ว · หมดอายุ 31 ก.ค. 2026</p></div>
+        </div>
+        <div class="card coupon" onclick="toast('ใช้คูปองที่หน้าร้านได้เลย')">
+          <div class="left"><b class="serif">-20%</b><span>MEMBER</span></div>
+          <div class="right"><b>ส่วนลดเมนูใหม่ประจำเดือน</b><p>เฉพาะสั่งล่วงหน้าผ่าน NOSE TEA</p></div>
+        </div>
+        <div class="card coupon" onclick="toast('ใช้คูปองที่หน้าร้านได้เลย')">
+          <div class="left"><b class="serif">×2</b><span>POINTS</span></div>
+          <div class="right"><b>แต้มคูณสองวันศุกร์</b><p>ทุกการบันทึก + แชร์การ์ดในวันศุกร์</p></div>
+        </div>
+
+        <div class="settings">
+          <div class="set-row" onclick="toast('ตั้งค่าการแจ้งเตือน')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>การแจ้งเตือน<svg class="chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+          <div class="set-row" onclick="toast('เชื่อมต่อกับ LINE แล้ว ✓')"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="M7 12h.01M12 12h.01M17 12h.01"/></svg>บัญชี LINE ที่เชื่อมต่อ<svg class="chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+          <div class="set-row" onclick="toast('ศูนย์ช่วยเหลือ')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg>ช่วยเหลือ & คำถามที่พบบ่อย<svg class="chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ LUCKY DRAW ══════════ -->
+    <section class="page" id="page-lucky">
+      <div class="wrap">
+        <div class="lucky-head">
+          <button class="back-btn" onclick="go('home')" aria-label="Back">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div>
+            <div class="h-eyebrow">Member Exclusive</div>
+            <div class="h-title serif" style="font-size:26px">Lucky Draw</div>
+          </div>
+        </div>
+
+        <div class="hero">
+          <div class="tag">LUCKY DRAW</div>
+          <h1 class="serif hero-campaign">Unlock<br>Every SIP</h1>
+          <p>สั่งเครื่องดื่มผ่าน <b>NOSE TEA</b> ครบ 1 แก้ว<br>รับสิทธิ์เปิดกล่องของขวัญ <b>1 สิทธิ์</b> ลุ้นรางวัลทันที</p>
+        </div>
+
+        <div class="ticket-bar">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="ticket-ic">
+              <svg viewBox="0 0 24 24"><path d="M3 6a1 1 0 011-1h16a1 1 0 011 1v3.5a2.5 2.5 0 000 5V18a1 1 0 01-1 1H4a1 1 0 01-1-1v-3.5a2.5 2.5 0 000-5V6z"/><path d="M14 5v2.5M14 10.5v3M14 16.5V19"/></svg>
+            </div>
+            <div>
+              <div class="lbl">สิทธิ์ของคุณไผ่</div>
+              <div class="val"><span class="ny" id="tickets">6</span><small>สิทธิ์</small></div>
+            </div>
+          </div>
+          <div class="lbl" style="text-align:right">หมดอายุ<br><b style="color:var(--green-900)">31 ก.ค. 2026</b></div>
+        </div>
+
+        <button class="draw-btn" id="drawBtn" onclick="openDraw()">เปิดกล่องของขวัญ 🎁</button>
+
+        <div class="section-label"><b>รางวัลในกล่อง</b></div>
+        <div class="pz-card"><span class="idx ny">1</span><div class="thumb"><img src="assets/sticker-nosetea.png" alt=""></div><div><b>ฟรีเครื่องดื่ม 1 แก้ว</b><p>โนสที ซิกเนเจอร์ แลกรับได้ทุกสาขา</p></div></div>
+        <div class="pz-card"><span class="idx ny">2</span><div class="thumb"><img src="assets/prize-livelynose-pack.jpg" alt=""></div><div><b>แผ่นลอกสิวเสี้ยน LIVELY NOSE</b><p>ของพรีเมียมลิมิเต็ด Nose Tea × Lively Nose</p></div></div>
+        <div class="pz-card"><span class="idx ny">3</span><div class="thumb"><img src="assets/prize-bag.png" alt="" style="transform:scale(1.35)"></div><div><b>กระเป๋า Nose Tea</b><p>Tote Bag ลิมิเต็ดของแคมเปญ Unlock Every SIP</p></div></div>
+        <div class="pz-card"><span class="idx ny">4</span><div class="thumb">🥤</div><div><b>อัปไซส์ฟรี</b><p>อัปเป็นแก้ว L ฟรีในออเดอร์ถัดไป</p></div></div>
+        <div class="pz-card"><span class="idx ny">5</span><div class="thumb">💛</div><div><b>ส่วนลด 15 บาท</b><p>ใช้ได้กับทุกเมนูเมื่อสั่งผ่าน NOSE TEA</p></div></div>
+        <div class="pz-card"><span class="idx ny">6</span><div class="thumb">🧋</div><div><b>ฟรีท็อปปิ้ง 1 อย่าง</b><p>เลือกท็อปปิ้งที่ชอบได้ฟรีในออเดอร์ถัดไป</p></div></div>
+
+        <div class="section-label"><b>วิธีรับสิทธิ์</b></div>
+        <div class="lucky-step"><div class="no">1</div><p>สั่งเครื่องดื่มผ่านแอป NOSE TEA <small>— 1 แก้ว = 1 สิทธิ์</small></p></div>
+        <div class="lucky-step"><div class="no">2</div><p>กดปุ่ม "เปิดกล่องของขวัญ" แล้วแตะที่ฝากล่อง</p></div>
+        <div class="lucky-step"><div class="no">3</div><p>รางวัลเข้าคูปองของฉันอัตโนมัติ <small>ใช้ได้ภายใน 14 วัน</small></p></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ Lucky Draw Overlay ══ -->
+  <div class="overlay" id="overlay" onclick="overlayClick(event)">
+    <svg class="rays" id="rays" viewBox="0 0 200 200">
+      <g fill="rgba(198,161,91,.5)">
+        <path d="M100 100L92 0h16z"/><path d="M100 100L192 30l8 14z"/><path d="M100 100L200 92v16z"/>
+        <path d="M100 100L170 192l-14 8z"/><path d="M100 100L108 200H92z"/><path d="M100 100L8 170l-8-14z"/>
+        <path d="M100 100L0 108V92z"/><path d="M100 100L30 8l14-8z"/>
+      </g>
+    </svg>
+    <div class="gift-zone">
+      <div class="gift" id="gift" onclick="openLid(event)">
+        <div class="glow"></div>
+        <div class="box-lid"></div>
+        <div class="box-body"></div>
+      </div>
+    </div>
+    <div class="tap-hint" id="tapHint">แตะฝากล่องเพื่อเปิดรางวัล</div>
+    <div class="prize-card" id="prizeCard">
+      <div class="congrats">CONGRATULATIONS</div>
+      <h2 id="pzName"></h2>
+      <div id="pzVisual"></div>
+      <p id="pzDesc"></p>
+      <div class="code" id="pzCode"></div>
+    </div>
+    <div class="close-hint" id="closeHint">แตะที่หน้าจอเพื่อเก็บรางวัล</div>
+  </div>
+
+  <!-- cart fab -->
+  <button class="cart-fab" id="cartFab" onclick="toast('ไปหน้าชำระเงิน (demo)')">
+    <span class="badge" id="cartCount">0</span> ตะกร้าของฉัน
+  </button>
+
+  <!-- toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ══ Bottom Nav : icon only ══ -->
+  <nav class="nav">
+    <button class="on" data-p="home" onclick="go('home')" aria-label="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+    </button>
+    <button data-p="order" onclick="go('order')" aria-label="Order">
+      <svg viewBox="0 0 24 24"><path d="M6 4h12l-1.4 16.2a1 1 0 01-1 .8H8.4a1 1 0 01-1-.8L6 4z"/><path d="M5 8.5h14"/><path d="M10 4l4-2.5"/></svg>
+    </button>
+    <button data-p="track" onclick="go('track')" aria-label="Track Drink">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg>
+    </button>
+    <button data-p="me" onclick="go('me')" aria-label="Me">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+    </button>
+  </nav>
+</div>
+
+<script>
+/* ── nav ── */
+function go(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  document.getElementById('screen').scrollTop=0;
+  document.getElementById('cartFab').style.display=(p==='order'&&cartN>0)?'flex':'none';
+}
+/* ── categories ── */
+function cat(el){document.querySelectorAll('.cat').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+/* ── cart ── */
+let cartN=0;
+function addCart(e,name){
+  e.stopPropagation();cartN++;
+  document.getElementById('cartCount').textContent=cartN;
+  const onOrder=document.getElementById('page-order').classList.contains('active');
+  if(onOrder)document.getElementById('cartFab').style.display='flex';
+  toast('เพิ่ม '+name+' ลงตะกร้า ✓');
+}
+/* ── toast ── */
+let tmr;
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(tmr);tmr=setTimeout(()=>t.classList.remove('show'),1900);
+}
+/* ── lucky draw ── */
+let luckyTickets=6, luckyState='idle';
+const luckyPrizes=[
+  {name:'ฟรีเครื่องดื่ม 1 แก้ว', img:'assets/sticker-nosetea.png', desc:'โนสที ซิกเนเจอร์ แลกรับได้ทุกสาขา เพียงโชว์คูปองนี้', code:'NOSE-FREE-1CUP'},
+  {name:'แผ่นลอกสิวเสี้ยน LIVELY NOSE', img:'assets/prize-livelynose-pack.jpg', desc:'ของพรีเมียมลิมิเต็ด Nose Tea × Lively Nose รับที่หน้าร้าน', code:'NOSE-LIVELY'},
+  {name:'กระเป๋า Nose Tea', img:'assets/prize-bag.png', big:true, desc:'Tote Bag ลิมิเต็ดของแคมเปญ Unlock Every SIP', code:'NOSE-TOTE-BAG'},
+  {name:'อัปไซส์ฟรี!', emoji:'🥤', desc:'อัปเป็นแก้ว L ฟรีในออเดอร์ถัดไป', code:'NOSE-UPSIZE'},
+  {name:'ส่วนลด 15 บาท', emoji:'💛', desc:'ใช้ได้กับทุกเมนูเมื่อสั่งผ่าน NOSE TEA', code:'NOSE-SAVE-15'},
+  {name:'ฟรีท็อปปิ้ง 1 อย่าง', emoji:'🧋', desc:'เลือกท็อปปิ้งที่ชอบได้ฟรีในออเดอร์ถัดไป', code:'NOSE-TOPPING'}
+];
+function pickPrize(){
+  /* เปิดได้ 6 ครั้ง รางวัลไล่ตามลำดับ 1 → 6 */
+  const idx=Math.min(6-luckyTickets, luckyPrizes.length-1);
+  return luckyPrizes[idx];
+}
+function openDraw(){
+  if(luckyTickets<=0) return;
+  luckyState='box';
+  document.getElementById('gift').classList.remove('opened');
+  document.getElementById('rays').classList.remove('on');
+  document.getElementById('prizeCard').classList.remove('pop');
+  document.getElementById('closeHint').classList.remove('show');
+  document.getElementById('tapHint').style.display='block';
+  document.getElementById('overlay').classList.add('show');
+}
+function openLid(e){
+  if(luckyState!=='box') return;
+  e.stopPropagation();
+  luckyState='opening';
+  document.getElementById('gift').classList.add('opened');
+  document.getElementById('tapHint').style.display='none';
+  document.getElementById('rays').classList.add('on');
+  const p=pickPrize();
+  document.getElementById('pzName').textContent=p.name;
+  document.getElementById('pzDesc').textContent=p.desc;
+  document.getElementById('pzCode').textContent=p.code;
+  document.getElementById('pzVisual').innerHTML=p.img?'<img src="'+p.img+'" alt=""'+(p.big?' style="width:210px;margin:-6px auto -14px"':'')+'>':'<span class="emoji">'+p.emoji+'</span>';
+  makeConfetti();
+  setTimeout(()=>{
+    document.getElementById('prizeCard').classList.add('pop');
+    document.getElementById('closeHint').classList.add('show');
+    luckyState='opened';
+  },550);
+}
+function overlayClick(e){
+  if(luckyState!=='opened') return;
+  luckyState='idle';
+  luckyTickets--;
+  document.getElementById('tickets').textContent=luckyTickets;
+  const btn=document.getElementById('drawBtn');
+  if(luckyTickets<=0){btn.disabled=true;btn.textContent='สั่งเครื่องดื่มเพื่อรับสิทธิ์เพิ่ม';}
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.confetti').forEach(c=>c.remove());
+  toast('เก็บรางวัลเข้าคูปองของฉันแล้ว ✓');
+}
+function makeConfetti(){
+  const ov=document.getElementById('overlay');
+  const colors=['#C6A15B','#EFE2C4','#2F5243','#F6F1E7','#A88439'];
+  for(let i=0;i<44;i++){
+    const c=document.createElement('span');
+    c.className='confetti';
+    const s=5+Math.random()*7;
+    c.style.cssText='left:'+(Math.random()*100)+'%;width:'+s+'px;height:'+(s*0.5)+'px;'
+      +'background:'+colors[i%colors.length]+';'
+      +'animation-duration:'+(2.6+Math.random()*2.4)+'s;'
+      +'animation-delay:'+(Math.random()*1.8)+'s;'
+      +'opacity:'+(0.55+Math.random()*0.45);
+    ov.appendChild(c);
+  }
+}
+
+/* ── statistics period toggle ── */
+const statData={
+  w:{cups:'6',spend:'฿630',caf:'320',avg:'46'},
+  m:{cups:'18',spend:'฿1,890',caf:'940',avg:'78'},
+  y:{cups:'31',spend:'฿3,240',caf:'1,620',avg:'52'}
+};
+function setPeriod(p,el){
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const s=statData[p];
+  document.getElementById('stCups').textContent=s.cups;
+  document.getElementById('stSpend').textContent=s.spend;
+  document.getElementById('stCaf').innerHTML=s.caf+' <small>mg</small>';
+  document.getElementById('stAvg').innerHTML=s.avg+' <small>mg</small>';
+}
+
+/* ── calorie calculator ── */
+const calcData=[
+  {n:'โนสที ซิกเนเจอร์',base:160,sugar:24,fat:7,caf:60},
+  {n:'ไทยที ซิกเนเจอร์',base:170,sugar:26,fat:8,caf:75},
+  {n:'ชาองุ่นเกล็ดหิมะ',base:90,sugar:22,fat:3,caf:40},
+  {n:'ชาเขียวมะลิครีมชีส',base:60,sugar:16,fat:2,caf:45},
+  {n:'บอนนาน่า ช็อกโก',base:210,sugar:28,fat:9,caf:20}
+];
+let calcSel=0;
+function pickDrink(i,el){
+  calcSel=i;
+  document.querySelectorAll('.calc-menus img').forEach(m=>m.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('calcName').textContent=calcData[i].n;
+  calcUpd();
+}
+function calcUpd(){
+  const lvl=+document.getElementById('sweetRange').value;
+  const d=calcData[calcSel];
+  const sugar=Math.round(d.sugar*lvl/100);
+  const kcal=d.base+sugar*4;
+  document.getElementById('sweetVal').textContent=lvl+'%';
+  document.getElementById('rKcal').textContent=kcal;
+  document.getElementById('rSugar').textContent=sugar;
+  document.getElementById('rFat').textContent=d.fat;
+  document.getElementById('rCaf').textContent=d.caf;
+}
+calcUpd();
+
+/* ── calendar (July 2026 : starts Wed, 31 days) ── */
+const drinks=[
+  'assets/menu-nosetea-signature.jpg',
+  'assets/menu-thaitea-signature.jpg',
+  'assets/menu-grape-snow.jpg',
+  'assets/menu-jasmine-green.jpg',
+  'assets/menu-bonana-choco.jpg'
+];
+const logged={1:0,2:1,3:2,5:3,6:0,8:4,9:1,10:2,11:[4,2],12:0}; // day: drinkIdx (12 = today)
+const grid=document.getElementById('calGrid');
+for(let i=0;i<3;i++){const d=document.createElement('div');d.className='day blank';grid.appendChild(d);}
+for(let day=1;day<=31;day++){
+  const d=document.createElement('div');d.className='day';
+  if(day in logged){
+    d.classList.add('filled');
+    let idx=logged[day],cnt=1;
+    if(Array.isArray(idx)){cnt=2;idx=idx[0];}
+    d.innerHTML='<img class="pic" src="'+drinks[idx]+'" alt="">'+(cnt>1?'<span class="cnt">'+cnt+'</span>':'');
+    d.onclick=()=>toast('บันทึกวันที่ '+day+' ก.ค. — แตะเพื่อดูการ์ด');
+  } else { d.textContent=day; }
+  if(day===12)d.classList.add('today-ring');
+  grid.appendChild(d);
+}
+</script>
+</body>
+</html>
