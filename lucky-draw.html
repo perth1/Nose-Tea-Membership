@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOSE NOTE · Lucky Draw</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F6F1E7;
+  --paper:#FFFDF8;
+  --card:#FFFFFF;
+  --green-950:#152B22;
+  --green-900:#1E3A2E;
+  --green-700:#2F5243;
+  --green-100:#E4EBE3;
+  --gold:#C6A15B;
+  --gold-deep:#A88439;
+  --gold-soft:#EFE2C4;
+  --ink:#26302A;
+  --muted:#8A9088;
+  --line:#ECE5D6;
+  --shadow:0 8px 24px rgba(30,58,46,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Prompt',sans-serif;
+  background:#E9E4D8;
+  color:var(--ink);
+  display:flex;justify-content:center;align-items:flex-start;
+  min-height:100vh;padding:24px 0;
+}
+.serif{font-family:'Cormorant Garamond','Prompt',sans-serif}
+.ny{font-family:'New York',ui-serif,'Times New Roman',serif}
+
+.phone{
+  width:393px;max-width:100vw;height:830px;
+  background:var(--cream);
+  border-radius:44px;
+  box-shadow:0 30px 80px rgba(21,43,34,.35), 0 0 0 10px #10201A;
+  overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+}
+.statusbar{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:13px;font-weight:600;color:var(--green-900)}
+.screen{flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 22px 40px}
+.screen::-webkit-scrollbar{display:none}
+
+/* ── landing ── */
+.head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
+.h-eyebrow{font-size:11px;letter-spacing:.22em;color:var(--gold-deep);font-weight:600;text-transform:uppercase}
+.h-title{font-size:30px;font-weight:700;color:var(--green-900);line-height:1.15}
+.head img{width:70px;height:auto;flex:none;margin-right:-6px}
+
+.hero{
+  margin-top:16px;border-radius:26px;padding:24px 22px;color:var(--cream);text-align:center;
+  background:
+    radial-gradient(120% 160% at 90% -20%,rgba(198,161,91,.45),transparent 55%),
+    radial-gradient(80% 120% at -10% 110%,rgba(198,161,91,.25),transparent 60%),
+    linear-gradient(140deg,var(--green-900),var(--green-950));
+  border:1px solid rgba(198,161,91,.4);
+  box-shadow:0 18px 36px rgba(21,43,34,.35);
+}
+.hero .tag{font-size:10px;letter-spacing:.26em;color:var(--gold);font-weight:700}
+.hero h1{font-size:34px;margin-top:8px;color:#F3E7CB;font-weight:700}
+.hero p{font-size:12.5px;color:#B8C6BB;margin-top:10px;line-height:1.7}
+.hero p b{color:#EFE2C4}
+
+.ticket-bar{
+  margin-top:18px;background:var(--card);border:1px solid #E3CFA0;border-radius:20px;
+  box-shadow:0 10px 24px rgba(168,132,57,.14);
+  padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+}
+.ticket-bar .lbl{font-size:12px;color:var(--muted)}
+.ticket-bar .val{font-size:26px;font-weight:700;color:var(--gold-deep)}
+.ticket-bar .val small{font-size:12px;color:var(--muted);font-weight:500;margin-left:4px}
+.ticket-ic{width:44px;height:44px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center}
+.ticket-ic svg{width:22px;height:22px;stroke:var(--gold-deep);stroke-width:1.7;fill:none}
+
+.draw-btn{
+  margin-top:18px;width:100%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#FFFDF8;font-family:inherit;font-size:15.5px;font-weight:600;
+  padding:17px;border-radius:18px;
+  box-shadow:0 12px 28px rgba(168,132,57,.45);
+  transition:.2s;
+}
+.draw-btn:active{transform:scale(.97)}
+.draw-btn:disabled{background:#CFC9B8;box-shadow:none;cursor:not-allowed}
+
+.how{margin-top:22px}
+.how b.title{font-size:15px;color:var(--green-900);display:block;margin-bottom:12px}
+.step{display:flex;gap:13px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 16px;margin-bottom:9px}
+.step .no{width:26px;height:26px;flex:none;border-radius:50%;background:var(--green-900);color:#F3E7CB;font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.step p{font-size:12.5px;line-height:1.6;color:var(--ink)}
+.step p small{color:var(--muted)}
+
+.prize-list{margin-top:14px;display:flex;gap:9px;flex-wrap:wrap}
+.pz{font-size:11px;background:var(--gold-soft);color:#6E5E3B;border-radius:999px;padding:6px 13px;font-weight:500}
+
+/* ── overlay ── */
+.overlay{
+  position:absolute;inset:0;z-index:100;display:none;
+  align-items:center;justify-content:center;flex-direction:column;
+  background:rgba(16,32,26,.82);backdrop-filter:blur(6px);
+}
+.overlay.show{display:flex;animation:ovin .3s ease}
+@keyframes ovin{from{opacity:0}to{opacity:1}}
+
+/* rays behind box/prize */
+.rays{position:absolute;width:460px;height:460px;opacity:0;transition:opacity .4s;pointer-events:none}
+.rays.on{opacity:.55;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── gift box (CSS) ── */
+.gift-zone{position:relative;width:260px;height:300px;display:flex;align-items:flex-end;justify-content:center}
+.gift{position:relative;width:170px;height:150px;cursor:pointer;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.gift.opened{animation:none;cursor:default}
+.box-body{
+  position:absolute;bottom:0;left:10px;right:10px;height:105px;border-radius:12px;
+  background:linear-gradient(160deg,#2F5243,#152B22);
+  box-shadow:inset 0 0 0 1.5px rgba(198,161,91,.35), 0 16px 30px rgba(0,0,0,.4);
+}
+.box-body::before{ /* ribbon vertical */
+  content:'';position:absolute;top:0;bottom:0;left:50%;width:26px;transform:translateX(-50%);
+  background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-deep));
+}
+.box-lid{
+  position:absolute;top:12px;left:0;right:0;height:42px;border-radius:10px;
+  background:linear-gradient(160deg,#39604F,#1E3A2E);
+  box-shadow:inset 0 0 0 1.5px rgba(198,161,91,.4), 0 8px 16px rgba(0,0,0,.35);
+  transition:transform .75s cubic-bezier(.34,1.3,.5,1), opacity .75s;
+  z-index:3;
+}
+.box-lid::before{ /* ribbon on lid */
+  content:'';position:absolute;top:0;bottom:0;left:50%;width:26px;transform:translateX(-50%);
+  background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-deep));
+}
+.box-lid::after{ /* bow */
+  content:'';position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  width:52px;height:24px;
+  background:
+    radial-gradient(circle at 25% 50%, var(--gold) 0 38%, transparent 40%),
+    radial-gradient(circle at 75% 50%, var(--gold) 0 38%, transparent 40%),
+    radial-gradient(circle at 50% 50%, var(--gold-deep) 0 22%, transparent 24%);
+}
+.gift.opened .box-lid{transform:translateY(-130px) rotate(-24deg);opacity:0}
+.gift .glow{
+  position:absolute;left:50%;bottom:70px;transform:translateX(-50%);
+  width:120px;height:120px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(239,226,196,.95),rgba(198,161,91,.35) 55%,transparent 70%);
+  opacity:0;transition:opacity .5s;z-index:2;
+}
+.gift.opened .glow{opacity:1;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.15)}}
+.tap-hint{margin-top:26px;font-size:13px;color:#D9E2D8;letter-spacing:.04em;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* ── prize card ── */
+.prize{
+  position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) scale(0);
+  width:280px;background:linear-gradient(180deg,#FFFFFF,#FDF8EC);
+  border:1.5px solid var(--gold);border-radius:24px;
+  padding:26px 22px 22px;text-align:center;z-index:5;
+  box-shadow:0 24px 60px rgba(0,0,0,.45), 0 0 0 6px rgba(198,161,91,.18);
+  pointer-events:none;
+}
+.prize.pop{animation:pop .8s cubic-bezier(.34,1.45,.45,1) forwards, floaty 2.6s ease-in-out 1s infinite}
+@keyframes pop{0%{transform:translate(-50%,-38%) scale(0);opacity:0}60%{transform:translate(-50%,-52%) scale(1.06);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes floaty{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-53%) scale(1)}}
+.prize .congrats{font-size:10.5px;letter-spacing:.3em;color:var(--gold-deep);font-weight:700}
+.prize h2{font-size:24px;color:var(--green-900);margin-top:8px;font-weight:700;line-height:1.3}
+.prize img{width:110px;height:auto;margin:10px auto 2px;filter:drop-shadow(0 8px 12px rgba(30,58,46,.25))}
+.prize .emoji{font-size:64px;line-height:1.3;margin:10px 0 2px;display:block}
+.prize p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+.prize .code{margin-top:12px;background:var(--green-900);color:#F3E7CB;border-radius:12px;padding:9px;font-size:13px;letter-spacing:.18em;font-weight:600}
+.close-hint{
+  position:absolute;bottom:56px;left:0;right:0;text-align:center;
+  font-size:12.5px;color:#D9E2D8;letter-spacing:.05em;z-index:6;
+  opacity:0;transition:opacity .4s;animation:none;pointer-events:none;
+}
+.close-hint.show{opacity:1;animation:blink 1.8s ease-in-out .8s infinite}
+
+/* confetti */
+.confetti{position:absolute;top:-14px;border-radius:2px;pointer-events:none;z-index:4;animation:fall linear infinite}
+@keyframes fall{
+  0%{transform:translateY(-20px) rotate(0deg)}
+  100%{transform:translateY(860px) rotate(720deg)}
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span>NOSE&nbsp;NOTE</span><span>●●●</span></div>
+
+  <div class="screen">
+    <div class="head">
+      <div>
+        <div class="h-eyebrow">Member Exclusive</div>
+        <div class="h-title serif">Lucky Draw</div>
+      </div>
+      <img src="assets/logo-nosetea.png" alt="Nose Tea">
+    </div>
+
+    <div class="hero">
+      <div class="tag">ORDER &amp; WIN</div>
+      <h1 class="serif">Sip &amp; Spin</h1>
+      <p>สั่งเครื่องดื่มผ่าน <b>NOSE NOTE</b> ครบ 1 แก้ว<br>รับสิทธิ์เปิดกล่องของขวัญ <b>1 สิทธิ์</b> ลุ้นรางวัลทันที</p>
+    </div>
+
+    <div class="ticket-bar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="ticket-ic">
+          <svg viewBox="0 0 24 24"><path d="M3 6a1 1 0 011-1h16a1 1 0 011 1v3.5a2.5 2.5 0 000 5V18a1 1 0 01-1 1H4a1 1 0 01-1-1v-3.5a2.5 2.5 0 000-5V6z"/><path d="M14 5v2.5M14 10.5v3M14 16.5V19"/></svg>
+        </div>
+        <div>
+          <div class="lbl">สิทธิ์ของคุณไผ่</div>
+          <div class="val"><span class="ny" id="tickets">3</span><small>สิทธิ์</small></div>
+        </div>
+      </div>
+      <div class="lbl" style="text-align:right">หมดอายุ<br><b style="color:var(--green-900)">31 ก.ค. 2026</b></div>
+    </div>
+
+    <button class="draw-btn" id="drawBtn" onclick="openDraw()">เปิดกล่องของขวัญ 🎁</button>
+
+    <div class="how">
+      <b class="title">รางวัลในกล่อง</b>
+      <div class="prize-list">
+        <span class="pz">🥤 ฟรีเครื่องดื่ม 1 แก้ว</span>
+        <span class="pz">✨ แต้ม ×2 ออเดอร์ถัดไป</span>
+        <span class="pz">💛 ส่วนลด 20%</span>
+        <span class="pz">🍃 +50 Tea Points</span>
+        <span class="pz">🧀 อัปไซส์ฟรี</span>
+      </div>
+    </div>
+
+    <div class="how">
+      <b class="title">วิธีรับสิทธิ์</b>
+      <div class="step"><div class="no">1</div><p>สั่งเครื่องดื่มผ่านแอป NOSE NOTE <small>— 1 แก้ว = 1 สิทธิ์</small></p></div>
+      <div class="step"><div class="no">2</div><p>กดปุ่ม "เปิดกล่องของขวัญ" แล้วแตะที่ฝากล่อง</p></div>
+      <div class="step"><div class="no">3</div><p>รางวัลเข้าคูปองของฉันอัตโนมัติ <small>ใช้ได้ภายใน 14 วัน</small></p></div>
+    </div>
+  </div>
+
+  <!-- ══ Lucky Draw Overlay ══ -->
+  <div class="overlay" id="overlay" onclick="overlayClick(event)">
+    <svg class="rays" id="rays" viewBox="0 0 200 200">
+      <g fill="rgba(198,161,91,.5)">
+        <path d="M100 100L92 0h16z"/><path d="M100 100L192 30l8 14z"/><path d="M100 100L200 92v16z"/>
+        <path d="M100 100L170 192l-14 8z"/><path d="M100 100L108 200H92z"/><path d="M100 100L8 170l-8-14z"/>
+        <path d="M100 100L0 108V92z"/><path d="M100 100L30 8l14-8z"/>
+      </g>
+    </svg>
+
+    <div class="gift-zone">
+      <div class="gift" id="gift" onclick="openLid(event)">
+        <div class="glow"></div>
+        <div class="box-lid"></div>
+        <div class="box-body"></div>
+      </div>
+    </div>
+    <div class="tap-hint" id="tapHint">แตะฝากล่องเพื่อเปิดรางวัล</div>
+
+    <div class="prize" id="prizeCard">
+      <div class="congrats">CONGRATULATIONS</div>
+      <h2 id="pzName"></h2>
+      <div id="pzVisual"></div>
+      <p id="pzDesc"></p>
+      <div class="code" id="pzCode"></div>
+    </div>
+    <div class="close-hint" id="closeHint">แตะที่หน้าจอเพื่อเก็บรางวัล</div>
+  </div>
+</div>
+
+<script>
+let tickets=3, state='idle'; // idle | box | opened
+
+const prizes=[
+  {name:'ฟรี! โนสที ซิกเนเจอร์ 1 แก้ว', img:'assets/sticker-nosetea.png',
+   desc:'แลกรับได้ทุกสาขา เพียงโชว์คูปองนี้', code:'NOSE-FREE-1CUP', w:12},
+  {name:'ฟรี! ชาองุ่นเกล็ดหิมะ 1 แก้ว', img:'assets/sticker-grape.png',
+   desc:'แลกรับได้ทุกสาขา เพียงโชว์คูปองนี้', code:'NOSE-FREE-GRAPE', w:8},
+  {name:'ส่วนลด 20% ออเดอร์ถัดไป', emoji:'💛',
+   desc:'ใช้ได้กับทุกเมนูเมื่อสั่งผ่าน NOSE NOTE', code:'NOSE-SAVE-20', w:20},
+  {name:'แต้ม ×2 ออเดอร์ถัดไป', emoji:'✨',
+   desc:'บันทึกแก้วถัดไปรับ Tea Points คูณสอง', code:'NOSE-X2-POINT', w:25},
+  {name:'+50 Tea Points', emoji:'🍃',
+   desc:'แต้มเข้าสมุดบันทึกชาของคุณทันที', code:'NOSE-PLUS-50', w:25},
+  {name:'อัปไซส์ฟรี!', emoji:'🥤',
+   desc:'อัปเป็นแก้ว L ฟรีในออเดอร์ถัดไป', code:'NOSE-UPSIZE', w:10}
+];
+
+function pickPrize(){
+  const total=prizes.reduce((s,p)=>s+p.w,0);
+  let r=Math.random()*total;
+  for(const p of prizes){ if((r-=p.w)<0) return p; }
+  return prizes[0];
+}
+
+function openDraw(){
+  if(tickets<=0) return;
+  state='box';
+  document.getElementById('gift').classList.remove('opened');
+  document.getElementById('rays').classList.remove('on');
+  document.getElementById('prizeCard').classList.remove('pop');
+  document.getElementById('closeHint').classList.remove('show');
+  document.getElementById('tapHint').style.display='block';
+  document.getElementById('overlay').classList.add('show');
+}
+
+function openLid(e){
+  if(state!=='box') return;
+  e.stopPropagation();
+  state='opening';
+  const gift=document.getElementById('gift');
+  gift.classList.add('opened');
+  document.getElementById('tapHint').style.display='none';
+  document.getElementById('rays').classList.add('on');
+
+  const p=pickPrize();
+  document.getElementById('pzName').textContent=p.name;
+  document.getElementById('pzDesc').textContent=p.desc;
+  document.getElementById('pzCode').textContent=p.code;
+  document.getElementById('pzVisual').innerHTML = p.img
+    ? '<img src="'+p.img+'" alt="">'
+    : '<span class="emoji">'+p.emoji+'</span>';
+
+  makeConfetti();
+  setTimeout(()=>{
+    document.getElementById('prizeCard').classList.add('pop');
+    document.getElementById('closeHint').classList.add('show');
+    state='opened';
+  },550);
+}
+
+function overlayClick(e){
+  if(state!=='opened') return;   /* ปิดได้เฉพาะหลังรางวัลแสดงแล้ว */
+  state='idle';
+  tickets--;
+  document.getElementById('tickets').textContent=tickets;
+  const btn=document.getElementById('drawBtn');
+  if(tickets<=0){btn.disabled=true;btn.textContent='สั่งเครื่องดื่มเพื่อรับสิทธิ์เพิ่ม';}
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.confetti').forEach(c=>c.remove());
+}
+
+function makeConfetti(){
+  const ov=document.getElementById('overlay');
+  const colors=['#C6A15B','#EFE2C4','#2F5243','#F6F1E7','#A88439'];
+  for(let i=0;i<44;i++){
+    const c=document.createElement('span');
+    c.className='confetti';
+    const s=5+Math.random()*7;
+    c.style.cssText='left:'+(Math.random()*100)+'%;width:'+s+'px;height:'+(s*0.5)+'px;'
+      +'background:'+colors[i%colors.length]+';'
+      +'animation-duration:'+(2.6+Math.random()*2.4)+'s;'
+      +'animation-delay:'+(Math.random()*1.8)+'s;'
+      +'opacity:'+(0.55+Math.random()*0.45);
+    ov.appendChild(c);
+  }
+}
+</script>
+</body>
+</html>
